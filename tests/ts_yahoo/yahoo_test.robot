@@ -2,6 +2,7 @@
 Documentation       Resource file holding endpoint wrapper keywords and related commonly used helper keywords
 
 Resource          ../res/kwds_selenium.robot
+Suite Teardown        Run Keyword   Delete All Sessions
 
 
 Library           SeleniumLibrary
