@@ -3,7 +3,7 @@ Documentation       Resource file holding endpoint wrapper keywords and related 
 
 Resource          ../res/kwds_selenium.robot
 
-
+Suite Teardon     Run Keyword    Close All Browsers
 
 Library           SeleniumLibrary
 
