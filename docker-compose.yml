@@ -7,8 +7,8 @@ services:
     environment:
             - HOST_UID
             - HOST_GID
-    env_file:
-      - .env
+    # env_file:
+    #   - .env
     volumes:
       - ./tests:/usr/src/api-v3-test/tests
 
