@@ -16,15 +16,15 @@ on:
     # run tests once a year in January 1st
     - cron:  '0 0 1 1 *'
 jobs:
-    API V3 tests:
-    runs-on: ubuntu-latest
+    API_V3_tests:
+      runs-on: ubuntu-latest
       steps:
-      - name: Check out code
-        uses: actions/checkout@v2
-      - name: Build docker images
-        run: docker-compose build
-      - name: Run tests
-        run: docker-compose up
+        - name: Check out code
+          uses: actions/checkout@v2
+        - name: Build docker images
+          run: docker-compose up -d
+        - name: Run tests
+          run: docker run ts_vms_app
 
     # run_tests:
     #     runs-on: ubuntu-latest
