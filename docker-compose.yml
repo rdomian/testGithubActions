@@ -1,0 +1,15 @@
+version: "3.3"
+
+services:
+  ts_vms_app:
+    build: .
+    container_name: apiv3test_ts_vms_app_1
+    environment:
+            - HOST_UID
+            - HOST_GID
+    env_file:
+      - .env
+    volumes:
+      - ./tests:/usr/src/api-v3-test/tests
+
+    command: /bin/bash -x -c "rm -r logfiles; mkdir -p logfiles && LOGFILE=logfiles/vms_tests-`date -u +%Y%m%d%H%M%S`.log; stdbuf -i0 -o0 -e0 robot -s $ROBOT_TAG -o vms.xml -x xunitVMS.xml -l VMS-log.html -r VMS.html --reporttitle \"$$TEST_ENV $$(date +'%Y-%m-%d')\" VMS_tests>  \"$$LOGFILE\" ; chown -R $$HOST_UID:$$HOST_GID logfiles; RES=$$?;"
