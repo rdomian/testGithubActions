@@ -17,6 +17,7 @@ on:
     - cron:  '0 0 1 1 *'
 jobs:
     API V3 tests:
+    runs-on: ubuntu-latest
       steps:
       - name: Check out code
         uses: actions/checkout@v2
