@@ -11,7 +11,7 @@ on:
         # Input has to be provided for the workflow to run
         required: true
 jobs:
-    API_V3_tests_on_demand:
+    API V3 tests on demand with tag - ${{ github.event.inputs.tag }}:
         runs-on: ubuntu-latest
         steps:
         - name: Check out code
@@ -26,27 +26,3 @@ jobs:
           with:
             name: reports
             path: ${{ github.workspace }}/reports
-        - name: Send test report as comment to commit
-          uses: joonvena/robotframework-reporter-action@v2
-          with:
-            gh_access_token: ${{ secrets.GITHUB_TOKEN }}
-        # runs-on: ubuntu-latest
-        # steps:
-        # - uses: actions/checkout@v2
-        # - name: Create folder for reports
-        #   run: mkdir reports
-        # - name: Run Robot Framework Tests
-        #   run: |
-        #     docker run \
-        #       -v ${PWD}/reports:/opt/robotframework/reports:Z \
-        #       -v ${PWD}/tests:/opt/robotframework/tests:Z \
-        #       -e ROBOT_OPTIONS="--variable DINOSAUR:${{ github.event.inputs.DINOSAUR }} --variable NOT_DINOSAUR:${{ github.event.inputs.NOT_DINOSAUR }} --include ${{ github.event.inputs.tag }}" \
-        #       --user $(id -u):$(id -g) \
-        #       ppodgorsek/robot-framework:latest
-        # - name: Upload reports
-        #   uses: actions/upload-artifact@v1
-        #   if: always()
-        #   with:
-        #     name: reports
-        #     # set path to Robot Framework results reports. Exclude dummy file that is needed because of ppodgorsek image priviledges.
-        #     path: ${{ github.workspace }}/reports
