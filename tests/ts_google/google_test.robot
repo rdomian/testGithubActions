@@ -24,3 +24,10 @@ Go To Google - fail - feature2
 
     Create Driver with Custom Options    ${browser}
     Go To           ${url}
+
+Fail test
+    [Tags]    fail    feature2
+
+
+    Create Driver with Custom Options    ${browser}
+    Click Button                                    ${RESET_YOUR_PASSWORD_BUTTON_LOCATOR}
