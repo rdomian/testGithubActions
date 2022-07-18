@@ -18,8 +18,8 @@ Go To Google - positive - feature1
     Go To           ${url}
 
 
-Go To Google - fail - feature2
-    [Tags]    fail    feature2
+Go To Google - negative - feature2
+    [Tags]    negative    feature2
 
 
     Create Driver with Custom Options    ${browser}
