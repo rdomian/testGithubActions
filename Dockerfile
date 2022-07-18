@@ -2,7 +2,8 @@ FROM python:2.7-slim
 
 # Update the repositories
 # Install packages
-RUN apt update && apt install -y curl gnupg2 locales locales-all unzip jq bzip2 libdbus-glib-1-2
+RUN apt update && apt install -y curl unzip
+
 
 # Install Chrome WebDriver
 RUN CHROMEDRIVER_VERSION=`curl -sS chromedriver.storage.googleapis.com/LATEST_RELEASE` && \
@@ -22,12 +23,6 @@ RUN curl -sS -o - https://dl-ssl.google.com/linux/linux_signing_key.pub | apt-ke
 
 # Put Chromedriver into the PATH
 ENV PATH $CHROMEDRIVER_DIR:$PATH
-
-# Install Geckodriver
-RUN GECKODRIVER_LATEST_VERSION=`curl -s https://api.github.com/repos/mozilla/geckodriver/releases/latest | jq -r '.tag_name'` && wget https://github.com/mozilla/geckodriver/releases/download/$GECKODRIVER_LATEST_VERSION/geckodriver-$GECKODRIVER_LATEST_VERSION-linux64.tar.gz && tar xvzf geckodriver* && chmod +x geckodriver && mv geckodriver /usr/local/bin && rm -rf geckodriver*
-
-#Install Firefox
-RUN wget -O FirefoxSetup.tar.bz2 "https://download.mozilla.org/?product=firefox-latest&os=linux64" && tar xjf FirefoxSetup.tar.bz2 -C /opt/ && rm -rf FirefoxSetup.tar.bz2 && ln -s /opt/firefox/firefox /usr/local/bin/firefox
 
 WORKDIR /usr/src
 COPY requirements.txt .
