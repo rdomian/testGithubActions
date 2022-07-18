@@ -1,54 +1,8 @@
-FROM fedora:31
+FROM python:2.7-slim
 
-# Add rpm fusion repository, which is needed for ffmpeg
-RUN dnf install -y \
-        http://download1.rpmfusion.org/free/fedora/rpmfusion-free-release-$(rpm -E %fedora).noarch.rpm \
-        http://download1.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-$(rpm -E %fedora).noarch.rpm
-
-# NOTE: gcc, redhat-rpm-config,  python-devel, tkinter are needed for installation of matplotlib
-RUN dnf install --setopt=deltarpm=false -y \
-        gcc \
-        redhat-rpm-config \
-        vim \
-        python3-tkinter \
-        net-tools \
-        mailx \
-        python3-pip \
-        python3-requests \
-        ffmpeg \
-        tesseract \
-        python3-imaging \
-        python3-pandas \
-        python3-matplotlib \
-        python3-gevent \
-        python3-pillow \
-        python3-devel && \
-    rm -rf /var/cache/dnf/*
-
-RUN pip install --upgrade pip
-RUN pip  install \
-        robotframework==4.1.3 \
-        requests==2.27.1 \
-        robotframework-requests==0.9.2 \
-        robotframework-imaplibrary2==0.4.1 \
-        robotframework-jsonschemalibrary \
-        dnspython==2.2.0 \
-        robotframework-faker==5.0.0 \
-        pytesseract==0.3.8 \
-        websocket-client==1.2.3 \
-        robotframework-databaselibrary \
-        pytz \
-        future \
-        get-video-properties \
-        mysql-connector-python \
-        robotframework-seleniumlibrary && \
-        rm -rf ~/.pip/cache
-
-# Install Google Chrome
-RUN dnf install -y fedora-workstation-repositories \
-                   'dnf-command(config-manager)'
-RUN dnf config-manager --set-enabled google-chrome
-RUN dnf install -y google-chrome-stable
+# Update the repositories
+# Install packages
+RUN apt update && apt install -y curl gnupg2 locales locales-all unzip jq bzip2 libdbus-glib-1-2
 
 # Install Chrome WebDriver
 RUN CHROMEDRIVER_VERSION=`curl -sS chromedriver.storage.googleapis.com/LATEST_RELEASE` && \
@@ -59,6 +13,25 @@ RUN CHROMEDRIVER_VERSION=`curl -sS chromedriver.storage.googleapis.com/LATEST_RE
     chmod +x /opt/chromedriver-$CHROMEDRIVER_VERSION/chromedriver && \
     ln -fs /opt/chromedriver-$CHROMEDRIVER_VERSION/chromedriver /usr/local/bin/chromedriver
 
-WORKDIR /usr/src/api-v3-test/app
-# Set the locale
-ENV LANG=en_US.UTF-8 LANGUAGE=en_US:en LC_ALL=en_US.UTF-8 PYTHONIOENCODING=UTF-8
+# Install Google Chrome
+RUN curl -sS -o - https://dl-ssl.google.com/linux/linux_signing_key.pub | apt-key add - && \
+    echo "deb http://dl.google.com/linux/chrome/deb/ stable main" >> /etc/apt/sources.list.d/google-chrome.list && \
+    apt-get -yqq update && \
+    apt-get -yqq install google-chrome-stable && \
+    rm -rf /var/lib/apt/lists/*
+
+# Put Chromedriver into the PATH
+ENV PATH $CHROMEDRIVER_DIR:$PATH
+
+# Install Geckodriver
+RUN GECKODRIVER_LATEST_VERSION=`curl -s https://api.github.com/repos/mozilla/geckodriver/releases/latest | jq -r '.tag_name'` && wget https://github.com/mozilla/geckodriver/releases/download/$GECKODRIVER_LATEST_VERSION/geckodriver-$GECKODRIVER_LATEST_VERSION-linux64.tar.gz && tar xvzf geckodriver* && chmod +x geckodriver && mv geckodriver /usr/local/bin && rm -rf geckodriver*
+
+#Install Firefox
+RUN wget -O FirefoxSetup.tar.bz2 "https://download.mozilla.org/?product=firefox-latest&os=linux64" && tar xjf FirefoxSetup.tar.bz2 -C /opt/ && rm -rf FirefoxSetup.tar.bz2 && ln -s /opt/firefox/firefox /usr/local/bin/firefox
+
+WORKDIR /usr/src
+COPY requirements.txt .
+RUN pip install -r requirements.txt
+ENV LANG=en_US.UTF-8  LANGUAGE=en_US:en  LC_ALL=en_US.UTF-8 PYTHONIOENCODING=UTF-8
+
+COPY . .
