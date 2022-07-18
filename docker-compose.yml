@@ -6,6 +6,6 @@ services:
     container_name: test_rd
     #   - .env
     volumes:
-      - ./tests:/usr/src/tests
+      - .:/usr/src
 
-    command: /bin/bash -x -c "robot tests;RES=$$?;"
+    command: /bin/bash -x -c "mkdir -p reports; robot -d ./reports tests;RES=$$?;"
