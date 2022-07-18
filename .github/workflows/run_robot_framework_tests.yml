@@ -25,6 +25,10 @@ jobs:
           run: docker-compose up -d
         - name: Run tests
           run: docker-compose up
+        - name: Send test report as comment to commit
+          uses: joonvena/robotframework-reporter-action@v2
+          with:
+            gh_access_token: ${{ secrets.GITHUB_TOKEN }}
 
     # run_tests:
     #     runs-on: ubuntu-latest
