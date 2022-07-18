@@ -8,4 +8,4 @@ services:
     volumes:
       - .:/usr/src
 
-    command: /bin/bash -x -c "mkdir -p reports; robot -i \"$ROBOT_TAG\" -d ./reports tests;RES=$$?;"
+    command: /bin/bash -x -c "mkdir -p reports; robot -i \"$ROBOT_TAG\" -d ./reports tests;exit $$?;"
