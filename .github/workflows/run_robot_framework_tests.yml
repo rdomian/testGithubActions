@@ -24,7 +24,7 @@ jobs:
         - name: Build docker images
           run: docker-compose up -d
         - name: Run tests
-          run: docker-compose up
+          run: docker-compose up --exit-code-from ts_vms_app
         - name: Upload reports
           uses: actions/upload-artifact@v1
           if: always()
@@ -33,6 +33,7 @@ jobs:
             path: ${{ github.workspace }}/reports
         - name: Send test report as comment to commit
           uses: joonvena/robotframework-reporter-action@v2.1
+          if: always()
           with:
             gh_access_token: ${{ secrets.GITHUB_TOKEN }}
 
