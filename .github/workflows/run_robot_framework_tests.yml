@@ -25,6 +25,12 @@ jobs:
           run: docker-compose up -d
         - name: Run tests
           run: docker-compose up
+        - name: Upload reports
+          uses: actions/upload-artifact@v1
+          if: always()
+          with:
+            name: reports
+            path: ${{ github.workspace }}/reports
         - name: Send test report as comment to commit
           uses: joonvena/robotframework-reporter-action@v2
           with:
