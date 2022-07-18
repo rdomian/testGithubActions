@@ -4,11 +4,13 @@ on:
   workflow_dispatch:
     # Inputs the workflow accepts.
     inputs:
+      branch:
+        description: 'Branch for tests to run'
+        default: master
+        required: true
       tag:
         description: 'Tag for tests to run. Use "*" to run all'
-        # Default value if no value is explicitly provided
         default: feature1
-        # Input has to be provided for the workflow to run
         required: true
 jobs:
     API V3 tests on demand with tag - ${{ github.event.inputs.tag }}:
@@ -16,6 +18,8 @@ jobs:
         steps:
         - name: Check out code
           uses: actions/checkout@v2
+            with:
+              ref: ${{ github.event.inputs.branch }}
         - name: Build docker images
           run: docker-compose up -d
         - name: Run tests
