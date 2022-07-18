@@ -2,7 +2,7 @@ FROM python:2.7-slim
 
 # Update the repositories
 # Install packages
-RUN apt update && apt install -y curl unzip
+RUN apt update && apt install -y curl gnupg2 locales locales-all unzip jq bzip2 libdbus-glib-1-2
 
 
 # Install Chrome WebDriver
