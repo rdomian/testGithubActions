@@ -33,6 +33,7 @@ jobs:
             path: ${{ github.workspace }}/reports
         - name: Send test report as comment to commit
           uses: joonvena/robotframework-reporter-action@v2
+          if: always()
           with:
             gh_access_token: ${{ secrets.GITHUB_TOKEN }}
 
