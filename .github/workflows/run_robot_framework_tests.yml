@@ -24,7 +24,7 @@ jobs:
         - name: Build docker images
           run: docker-compose up -d
         - name: Run tests
-          run: docker run ts_vms_app
+          run: docker-compose up
 
     # run_tests:
     #     runs-on: ubuntu-latest
