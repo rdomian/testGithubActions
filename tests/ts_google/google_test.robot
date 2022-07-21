@@ -24,6 +24,7 @@ Go To Google - negative - feature2
 
     Create Driver with Custom Options    ${browser}
     Go To           ${url}
+    
 
 # Some fail test - negative - feature2
 #     [Tags]    negative    feature2
