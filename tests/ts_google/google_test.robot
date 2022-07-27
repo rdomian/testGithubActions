@@ -11,23 +11,23 @@ ${url}            https://google.com
 ${browser}        Chrome
 
 *** Test Cases ***
-Go To Google - positive - feature1
+Go To Google_1 - positive - feature1
     [Tags]    positive    feature1
 
     Create Driver with Custom Options    ${browser}
     Go To           ${url}
 
 
-Go To Google - negative - feature2
+Go To Google_2 - negative - feature2
     [Tags]    negative    feature2
 
 
     Create Driver with Custom Options    ${browser}
     Go To           ${url}
 
-Some fail test - negative - feature2
+Go To Google_3_fail_test - negative - feature2
     [Tags]    negative    feature2
 
 
     Create Driver with Custom Options    ${browser}
-    Click Button         asdasd
+    # Click button     asdasd
