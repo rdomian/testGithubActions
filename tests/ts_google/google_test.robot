@@ -25,6 +25,12 @@ Go To Google_2 - negative - feature2
     Create Driver with Custom Options    ${browser}
     Go To           ${url}
 
+Go To Google_new_test - negative - feature2
+    [Tags]    negative    feature2
+
+
+    Create Driver with Custom Options    ${browser}
+    
 Go To Google_3_fail_test - negative - feature2
     [Tags]    negative    feature2
 
